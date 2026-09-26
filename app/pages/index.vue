@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { PokemonListItem, PokemonListResponse } from '~~/shared/types/pokemon'
 
+definePageMeta({ keepalive: true })
 useHead({ title: 'Explore Pokémon | Priority Pokémon' })
 
 const { data, error } = await useFetch<PokemonListResponse>('/api/pokemon', { query: { offset: 0 } })
@@ -13,8 +14,13 @@ const { pokemonCollection, refreshCollection } = useCollection()
 const capturedIds = computed(() => new Set(pokemonCollection.value.map(item => item.name.toLowerCase().replaceAll(' ', '-'))))
 const hasMore = computed(() => pokemon.value.length < total.value)
 
-onMounted(async () => {
-  try { await refreshCollection() } catch { collectionError.value = 'Collection status is unavailable right now.' }
+onActivated(async () => {
+  try {
+    await refreshCollection()
+    collectionError.value = ''
+  } catch {
+    collectionError.value = 'Collection status is unavailable right now.'
+  }
 })
 
 async function loadMore(): Promise<void> {
