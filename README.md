@@ -39,7 +39,7 @@ Run it while the dev server is listening on port 3000.
 
 1. Import this repository as a Nuxt project in Vercel.
 2. Add an Upstash Redis database through the Vercel Marketplace and connect it to the project.
-3. Set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` in Vercel if the integration has not added them automatically.
+3. Connect the database to the project for Production. The server accepts either `KV_REST_API_URL` with `KV_REST_API_TOKEN` (provided by some Vercel integrations) or `UPSTASH_REDIS_REST_URL` with `UPSTASH_REDIS_REST_TOKEN`. Use a matching pair; the read-only token and `REDIS_URL` cannot be used for collection writes through the REST client.
 4. Set `NUXT_SESSION_SECRET` to a stable random value of at least 32 bytes. For example, generate a hex value with `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"` and add it as an environment variable. Changing this value invalidates existing visitor cookies.
 5. Deploy. Nuxt selects the Vercel server preset in Vercel's build environment; no separate Express service is needed.
 

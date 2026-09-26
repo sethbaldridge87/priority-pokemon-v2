@@ -5,8 +5,18 @@ const localCollections = new Map<string, Map<string, CapturedPokemon>>()
 let redis: Redis | undefined
 
 function storage(): Redis | null {
-  if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
-    redis ??= Redis.fromEnv()
+  const upstashUrl = process.env.UPSTASH_REDIS_REST_URL
+  const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN
+  const kvUrl = process.env.KV_REST_API_URL
+  const kvToken = process.env.KV_REST_API_TOKEN
+  const credentials = upstashUrl && upstashToken
+    ? { url: upstashUrl, token: upstashToken }
+    : kvUrl && kvToken
+      ? { url: kvUrl, token: kvToken }
+      : null
+
+  if (credentials) {
+    redis ??= new Redis(credentials)
     return redis
   }
   if (process.env.NODE_ENV === 'production') {
