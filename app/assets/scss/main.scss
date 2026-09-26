@@ -721,8 +721,7 @@ img {
   margin-top: 24px;
 }
 
-.stat-panel,
-.catch-panel {
+.stat-panel, .catch-panel {
   border: 1px solid $line;
   border-radius: 15px;
   background: $white;
@@ -760,7 +759,7 @@ img {
   grid-column: 1 / -1;
 }
 
-.stat-panel__item>span {
+.stat-panel__item > span {
   color: $muted;
   font-size: .76rem;
   font-weight: 700;
@@ -950,7 +949,7 @@ dialog::backdrop {
   border-top: 1px solid $line;
 }
 
-.detail-list>div {
+.detail-list > div {
   display: grid;
   grid-template-columns: 94px minmax(0, 1fr);
   gap: 12px;
