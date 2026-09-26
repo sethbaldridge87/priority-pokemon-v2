@@ -1,0 +1,26 @@
+{
+  "name": "priority-pokemon-v2",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "preview": "nuxt preview",
+    "typecheck": "nuxt typecheck"
+  },
+  "dependencies": {
+    "@upstash/redis": "^1.36.0",
+    "nuxt": "4.5.2",
+    "vue": "3.5.43",
+    "vue-router": "5.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "sass": "^1.97.0",
+    "typescript": "6.0.3",
+    "vue-tsc": "3.3.11"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

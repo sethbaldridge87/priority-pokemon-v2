@@ -1,0 +1,44 @@
+@use 'sass:map';
+
+$ink: #1e2927;
+$muted: #64706b;
+$paper: #f7f5ef;
+$white: #fff;
+$line: #dedfd7;
+$red: #dd554b;
+$red-dark: #aa382f;
+$green: #246b4d;
+
+$breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+);
+
+@mixin up($name) {
+  @media (min-width: map.get($breakpoints, $name)) {
+    @content;
+  }
+}
+
+$types: (
+  normal: (#e8e9e4, #48524b),
+  fire: (#ffdfd4, #a33b25),
+  water: (#dceaff, #285c9a),
+  electric: (#fff0b9, #765b08),
+  grass: (#ddf2db, #2c6c3b),
+  ice: (#d9f2f1, #236b70),
+  fighting: (#f9ded8, #a54136),
+  poison: (#f0e0f5, #78468d),
+  ground: (#f2e4cf, #765d31),
+  flying: (#e6e6fb, #56559d),
+  psychic: (#ffdeea, #a54369),
+  bug: (#e9f0d0, #536b26),
+  rock: (#e9e2d3, #6d603e),
+  ghost: (#e5e0f0, #584c80),
+  dragon: (#e3e1fa, #50479e),
+  dark: (#e2e1df, #4d4945),
+  steel: (#e4e8ec, #4b6474),
+  fairy: (#fae3ef, #a24f78),
+);
