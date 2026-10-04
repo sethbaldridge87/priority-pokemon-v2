@@ -41,6 +41,7 @@ a {
   color: inherit;
 
   &:focus-visible {
+    border-radius: 9px;
     outline: 3px solid #2777a2;
     outline-offset: 4px;
   }

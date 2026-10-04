@@ -10,6 +10,7 @@ const total = ref(data.value?.count ?? 0)
 const loadingMore = ref(false)
 const loadError = ref('')
 const collectionError = ref('')
+const pokemonGrid = ref<HTMLDivElement | null>(null)
 const { pokemonCollection, refreshCollection } = useCollection()
 const capturedIds = computed(() => new Set(pokemonCollection.value.map(item => item.name.toLowerCase().replaceAll(' ', '-'))))
 const hasMore = computed(() => pokemon.value.length < total.value)
@@ -28,10 +29,16 @@ async function loadMore(): Promise<void> {
   loadingMore.value = true
   loadError.value = ''
   try {
-    const response = await $fetch<PokemonListResponse>('/api/pokemon', { query: { offset: pokemon.value.length } })
+    const firstNewIndex = pokemon.value.length
+    const response = await $fetch<PokemonListResponse>('/api/pokemon', { query: { offset: firstNewIndex } })
     const existing = new Set(pokemon.value.map(item => item.name))
-    pokemon.value.push(...response.results.filter(item => !existing.has(item.name)))
+    const newPokemon = response.results.filter(item => !existing.has(item.name))
+    pokemon.value.push(...newPokemon)
     total.value = response.count
+    if (newPokemon.length) {
+      await nextTick()
+      pokemonGrid.value?.children.item(firstNewIndex)?.querySelector<HTMLElement>('.pokemon-card__main')?.focus()
+    }
   } catch {
     loadError.value = 'Could not load more Pokémon. Please try again.'
   } finally {
@@ -74,7 +81,7 @@ async function loadMore(): Promise<void> {
         <p>Please refresh the page and try again.</p>
       </div>
       <template v-else>
-        <div id="pokemon-grid" class="pokemon-grid" tabindex="-1">
+        <div id="pokemon-grid" ref="pokemonGrid" class="pokemon-grid" tabindex="-1">
           <PokemonCard
             v-for="item in pokemon"
             :key="item.name"
