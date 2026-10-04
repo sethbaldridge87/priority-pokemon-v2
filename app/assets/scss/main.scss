@@ -714,8 +714,9 @@ img {
     img {
       position: relative;
       z-index: 1;
-      width: 350px;
-      height: 350px;
+      max-width: 360px;
+      max-height: 360px;
+      width: 100%;
       object-fit: contain;
       filter: drop-shadow(0 20px 13px rgba(31, 42, 39, .16));
     }

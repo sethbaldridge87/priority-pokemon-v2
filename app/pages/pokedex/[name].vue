@@ -67,7 +67,7 @@ async function catchPokemon(): Promise<void> {
           </div>
           <div class="entry-hero__art">
             <span class="entry-hero__art-ring" aria-hidden="true" />
-            <img v-if="visibleImage" :src="visibleImage" :alt="`${displayName(pokemon.name)} ${showShiny ? 'shiny' : 'normal'} artwork`" width="360" height="360">
+            <img v-if="visibleImage" :src="visibleImage" :alt="`${displayName(pokemon.name)} ${showShiny ? 'shiny' : 'normal'} artwork`">
             <span v-else class="entry-hero__no-image">Artwork unavailable</span>
           </div>
         </div>
