@@ -69,12 +69,12 @@ async function loadMore(): Promise<void> {
       </div>
 
       <p v-if="collectionError" class="notice" role="status">{{ collectionError }}</p>
-      <div v-if="error" class="empty-state" role="alert">
+      <div v-if="error" id="pokemon-grid" class="empty-state" role="alert" tabindex="-1">
         <h3>The Pokédex could not load.</h3>
         <p>Please refresh the page and try again.</p>
       </div>
       <template v-else>
-        <div class="pokemon-grid">
+        <div id="pokemon-grid" class="pokemon-grid" tabindex="-1">
           <PokemonCard
             v-for="item in pokemon"
             :key="item.name"

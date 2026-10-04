@@ -93,7 +93,7 @@ async function catchPokemon(): Promise<void> {
           <p v-if="collectionError" class="form-error" role="status">{{ collectionError }}</p>
           <p v-if="catchError" class="form-error" role="alert">{{ catchError }}</p>
           <button class="button button--red" type="button" :disabled="catching || isCaptured" @click="catchPokemon">
-            {{ isCaptured ? 'This Pokémon is already in your collection.' : catching ? 'Catching…' : 'Catch' }}
+            {{ isCaptured ? 'This Pokémon has been added to your collection!' : catching ? 'Catching…' : 'Catch' }}
           </button>
           <NuxtLink v-if="isCaptured" class="text-link" to="/collection">View your collection →</NuxtLink>
         </aside>

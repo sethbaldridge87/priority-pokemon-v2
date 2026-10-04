@@ -30,19 +30,42 @@ button {
   &:disabled {
     cursor: not-allowed;
   }
+
+  &:focus-visible {
+    outline: 3px solid #2777a2;
+      outline-offset: 4px;
+  }
 }
 
 a {
   color: inherit;
+
+  &:focus-visible {
+    outline: 3px solid #2777a2;
+    outline-offset: 4px;
+  }
 }
 
 img {
   max-width: 100%;
 }
 
-:focus-visible {
-  outline: 3px solid #2777a2;
-  outline-offset: 4px;
+.skip-link {
+  position: fixed;
+  z-index: 10;
+  top: 12px;
+  left: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: $ink;
+  color: $white;
+  font-weight: 800;
+  text-decoration: none;
+  transform: translateY(calc(-100% - 20px));
+
+  &:focus {
+    transform: none;
+  }
 }
 
 .site-shell {
@@ -424,12 +447,16 @@ img {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 18px;
+
+  &:focus-visible {
+    outline: none;
+  }
 }
 
 .pokemon-card {
   position: relative;
   display: flex;
-  overflow: hidden;
+  // overflow: hidden;
   flex-direction: column;
   border: 1px solid #e7e8e1;
   border-radius: 14px;
@@ -460,6 +487,7 @@ img {
   }
 
   &__art {
+    border-radius: 14px 14px 0 0;
     display: grid;
     width: 100%;
     min-height: 220px;
@@ -562,6 +590,7 @@ img {
   color: #625a9f;
   font-size: .73rem;
   font-weight: 900;
+  width: 110px;
 
   &:hover {
     background: #e8e5ff;
@@ -631,7 +660,6 @@ img {
 
 .entry-hero {
   position: relative;
-  overflow: hidden;
   padding: 25px;
   border-radius: 18px;
   background: $white;
@@ -657,7 +685,7 @@ img {
   &__copy {
     position: relative;
     z-index: 1;
-    padding-top: 26px;
+    padding: 26px 0;
 
     p {
       max-width: 340px;
@@ -678,7 +706,7 @@ img {
   &__art {
     position: relative;
     display: grid;
-    min-height: 315px;
+    justify-self: center;
     place-items: center;
     border-radius: 50%;
     background: #dce8db;
@@ -686,8 +714,8 @@ img {
     img {
       position: relative;
       z-index: 1;
-      width: min(85%, 350px);
-      height: min(85%, 350px);
+      width: 350px;
+      height: 350px;
       object-fit: contain;
       filter: drop-shadow(0 20px 13px rgba(31, 42, 39, .16));
     }
@@ -1094,6 +1122,7 @@ dialog {
 
     &__art {
       min-height: 360px;
+      min-width: 360px;
     }
 
     &__toggle {

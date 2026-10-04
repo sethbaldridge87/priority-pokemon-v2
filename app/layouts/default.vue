@@ -1,5 +1,10 @@
+<script setup lang="ts">
+const route = useRoute()
+</script>
+
 <template>
   <div class="site-shell">
+    <a v-if="route.path === '/'" class="skip-link" href="#pokemon-grid">Skip to Pokémon cards</a>
     <header class="site-header">
       <div class="container site-header__inner">
         <NuxtLink class="brand" to="/" aria-label="Priority Pokémon home">
