@@ -55,11 +55,14 @@ img {
   position: fixed;
   z-index: 10;
   top: 12px;
-  left: 12px;
+  left: 0;
+  right: 0;
   padding: 10px 14px;
   border-radius: 8px;
   background: $ink;
   color: $white;
+  margin: auto;
+  width: fit-content;
   font-weight: 800;
   text-decoration: none;
   transform: translateY(calc(-100% - 20px));
