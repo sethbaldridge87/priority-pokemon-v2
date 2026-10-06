@@ -15,6 +15,11 @@ const { pokemonCollection, refreshCollection } = useCollection()
 const capturedIds = computed(() => new Set(pokemonCollection.value.map(item => item.name.toLowerCase().replaceAll(' ', '-'))))
 const hasMore = computed(() => pokemon.value.length < total.value)
 
+function pokemonIdFromUrl(url: string): number | undefined {
+  const match = url.match(/\/pokemon\/(\d+)\/?$/)
+  return match ? Number(match[1]) : undefined
+}
+
 onActivated(async () => {
   try {
     await refreshCollection()
@@ -86,6 +91,7 @@ async function loadMore(): Promise<void> {
             v-for="item in pokemon"
             :key="item.name"
             :name="item.name"
+            :pokemon-id="pokemonIdFromUrl(item.url)"
             :is-captured="capturedIds.has(item.name)"
           />
         </div>

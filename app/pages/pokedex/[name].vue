@@ -45,7 +45,7 @@ async function catchPokemon(): Promise<void> {
 
 <template>
   <div class="container entry-page">
-    <NuxtLink class="back-link" to="/">← Back to Pokédex</NuxtLink>
+    <NuxtLink class="back-link" :to="pokemon ? `/#${String(pokemon.id).padStart(4, '0')}` : '/'">← Back to Pokédex</NuxtLink>
 
     <div v-if="error || !pokemon" class="empty-state" role="alert">
       <h1>Pokémon not found</h1>

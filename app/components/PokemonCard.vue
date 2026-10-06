@@ -4,6 +4,7 @@ import { displayName } from '~~/shared/types/pokemon'
 
 const props = withDefaults(defineProps<{
   name: string
+  pokemonId?: number
   capturedPokemon?: CapturedPokemon
   isCaptured?: boolean
   mode?: 'link' | 'button'
@@ -15,7 +16,7 @@ const details = ref<PokemonDetails | null>(null)
 const loading = ref(!props.capturedPokemon)
 const failed = ref(false)
 
-const id = computed(() => props.capturedPokemon?.Id ?? details.value?.id)
+const id = computed(() => props.capturedPokemon?.Id ?? props.pokemonId ?? details.value?.id)
 const types = computed(() => props.capturedPokemon?.Types ?? details.value?.types ?? [])
 const image = computed(() => props.capturedPokemon?.Image ?? details.value?.image)
 
@@ -32,7 +33,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <article class="pokemon-card" :class="types[0] ? `pokemon-card--${types[0]}` : ''">
+  <article :id="id ? String(id).padStart(4, '0') : undefined" class="pokemon-card" :class="types[0] ? `pokemon-card--${types[0]}` : ''">
     <span v-if="isCaptured" class="pokemon-card__caught" aria-label="Already in your collection" title="Already in your collection">✓</span>
 
     <component
