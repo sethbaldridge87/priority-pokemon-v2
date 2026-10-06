@@ -20,7 +20,8 @@ body {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
@@ -863,6 +864,36 @@ img {
       color: $muted;
       font-size: .75rem;
       font-weight: 700;
+    }
+  }
+}
+
+.collection-sort {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 18px;
+
+  label {
+    color: $muted;
+    font-size: .88rem;
+    font-weight: 700;
+  }
+
+  select {
+    max-width: 100%;
+    min-height: 44px;
+    padding: 9px 12px;
+    border: 1px solid $line;
+    border-radius: 10px;
+    background: $white;
+    color: $ink;
+
+    &:focus-visible {
+      outline: 3px solid #2777a2;
+      outline-offset: 4px;
     }
   }
 }

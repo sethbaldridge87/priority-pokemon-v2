@@ -13,8 +13,31 @@ const showShiny = ref(false)
 const releasing = ref(false)
 const detailsDialog = ref<HTMLDialogElement | null>(null)
 const confirmDialog = ref<HTMLDialogElement | null>(null)
+type SortOrder = 'number-asc' | 'number-desc' | 'name-asc' | 'name-desc' | 'date-desc' | 'date-asc'
+const sortOrder = ref<SortOrder>('number-asc')
 const canShowShiny = computed(() => Boolean(selected.value && isGrassType(selected.value.Types) && selected.value.ShinyImage))
 const selectedImage = computed(() => showShiny.value && canShowShiny.value ? selected.value?.ShinyImage : selected.value?.Image)
+
+function caughtAt(pokemon: CapturedPokemon): number {
+  const [month, day, year] = pokemon.DayCaught.split('.').map(Number)
+  const time = pokemon.TimeCaught.match(/^(\d{1,2}):(\d{2})(AM|PM)$/i)
+  if (!month || !day || !year || !time) return 0
+
+  const hour = Number(time[1]) % 12 + (time[3]?.toUpperCase() === 'PM' ? 12 : 0)
+  return Date.UTC(year, month - 1, day, hour, Number(time[2]))
+}
+
+const sortedPokemon = computed(() => {
+  const pokemon = [...pokemonCollection.value]
+  switch (sortOrder.value) {
+    case 'number-asc': return pokemon
+    case 'number-desc': return pokemon.sort((a, b) => b.Id - a.Id)
+    case 'name-asc': return pokemon.sort((a, b) => a.name.localeCompare(b.name) || a.Id - b.Id)
+    case 'name-desc': return pokemon.sort((a, b) => b.name.localeCompare(a.name) || a.Id - b.Id)
+    case 'date-desc': return pokemon.sort((a, b) => caughtAt(b) - caughtAt(a) || a.Id - b.Id)
+    case 'date-asc': return pokemon.sort((a, b) => caughtAt(a) - caughtAt(b) || a.Id - b.Id)
+  }
+})
 
 async function loadCollection(): Promise<void> {
   loading.value = true
@@ -86,16 +109,29 @@ async function confirmRelease(): Promise<void> {
       <p>Oops! You don’t have any Pokemon to view here! Go catch some right now!</p>
       <NuxtLink class="button button--red" to="/">Explore Pokémon <span aria-hidden="true">↗</span></NuxtLink>
     </div>
-    <div v-else-if="pokemonCollection.length" class="pokemon-grid">
-      <PokemonCard
-        v-for="pokemon in pokemonCollection"
-        :key="pokemon.Id"
-        :name="pokemon.name.toLowerCase().replaceAll(' ', '-')"
-        :captured-pokemon="pokemon"
-        mode="button"
-        @select="openDetails(pokemon)"
-      />
-    </div>
+    <template v-else-if="pokemonCollection.length">
+      <div class="collection-sort">
+        <label for="collection-sort">Sort by</label>
+        <select id="collection-sort" v-model="sortOrder">
+          <option value="number-asc">Number (ascending)</option>
+          <option value="number-desc">Number (descending)</option>
+          <option value="name-asc">Name (A-Z)</option>
+          <option value="name-desc">Name (Z-A)</option>
+          <option value="date-desc">Date caught (newest)</option>
+          <option value="date-asc">Date caught (oldest)</option>
+        </select>
+      </div>
+      <div class="pokemon-grid">
+        <PokemonCard
+          v-for="pokemon in sortedPokemon"
+          :key="pokemon.Id"
+          :name="pokemon.name.toLowerCase().replaceAll(' ', '-')"
+          :captured-pokemon="pokemon"
+          mode="button"
+          @select="openDetails(pokemon)"
+        />
+      </div>
+    </template>
 
     <dialog ref="detailsDialog" class="pokemon-dialog" aria-label="Collected Pokémon details" @close="selected = null">
       <template v-if="selected">
